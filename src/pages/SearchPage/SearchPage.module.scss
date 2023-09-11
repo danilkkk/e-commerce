@@ -1,0 +1,14 @@
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 90px);
+}

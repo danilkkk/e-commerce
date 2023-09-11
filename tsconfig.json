@@ -5,7 +5,10 @@
       "components": ["components/*"],
       "config": ["config/*"],
       "styles": ["styles/*"],
-      "utils": ["utils/*"]
+      "utils": ["utils/*"],
+      "assets": ["assets/*"],
+      "pages": ["pages/*"],
+      "types": ["types/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -21,7 +24,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

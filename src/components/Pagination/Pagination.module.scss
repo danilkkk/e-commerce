@@ -1,0 +1,40 @@
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.item {
+  display: flex;
+  height: 42px;
+  padding: 10px;
+
+  &.__active {
+    background: var(--brand-color);
+
+    & .text {
+      color: var(--screen-color);
+    }
+  }
+
+  & .text {
+
+  }
+}
+
+.arrow {
+  display: flex;
+  color: var(--paragraph-color) !important;
+
+  &.__active {
+    color: var(--text-color) !important;
+  }
+
+  &.__left {
+    transform: rotate(90deg);
+  }
+
+  &.__right {
+    transform: rotate(-90deg);
+  }
+}

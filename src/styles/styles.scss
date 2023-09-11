@@ -1,0 +1,234 @@
+@import './Roboto/fonts';
+@import 'vars';
+
+html,
+body {
+  font-family: 'Roboto', serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--main-background);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+figure,
+pre {
+  margin: 0;
+}
+
+.custom-button {
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-s) var(--space-l);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
+
+  & .button-loader {
+    margin-right: var(--space-xxs);
+    color: var(--button-primary-text);
+  }
+
+  &:not(.__loading):not(.__disabled):hover {
+    background: var(--button-primary-bg-hover);
+    color: var(--button-primary-text-hover);
+  }
+
+  &.__active {
+    background: var(--button-primary-bg-active);
+    color: var(--button-primary-text-active);
+  }
+
+  &.__disabled {
+    cursor: default;
+    background: var(--button-primary-bg-disabled);
+    color: var(--button-primary-text-disabled);
+  }
+}
+
+
+.custom-card {
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    box-shadow: var(--shadow-box-shadow);
+  }
+
+  & .image {
+    background: var(--card-image-bg);
+  }
+
+  & .content-w {
+    padding: var(--space-xl) var(--space-xs);
+    display: flex;
+    flex-direction: column;
+
+    & .caption {
+      margin-bottom: var(--space-xxs);
+    }
+
+    & .title {
+      margin-bottom: var(--space-xxs);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    & .subtitle {
+      margin-bottom: var(--space-l);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* number of lines to show */
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    & .footer-w {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & .content {
+        margin-right: var(--space-xxs);
+      }
+    }
+  }
+}
+
+$input-height: 24px;
+
+.input-w {
+  background: var(--input-bg);
+  display: flex;
+  align-items: center;
+  padding: var(--space-s) var(--space-xs) var(--space-s) var(--space-s);
+
+  &.__with-icon {
+
+  }
+
+  &:not(.__disabled).__focus {
+    outline: 1px solid var(--input-border-focus);
+    background: var(--input-bg-focus);
+    color: var(--input-text-focus);
+  }
+  &.__empty,
+  &.__disabled {
+    background: var(--input-bg-disabled);
+    color: var(--input-text-disabled);
+  }
+
+  & .custom-input {
+    width: 100%;
+    height: $input-height;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    border-radius: 0;
+    color: inherit;
+
+    &:focus {
+      border: none;
+      outline: none;
+      background: transparent;
+    }
+  }
+
+  & .slot-w {
+    width: $input-height;
+    height: $input-height;
+    margin-left: var(--space-xxs);
+  }
+}
+
+$checkbox-size: 40px;
+
+.checkbox-w {
+  position: relative;
+  width: $checkbox-size;
+  height: $checkbox-size;
+  border-radius: var(--border-radius);
+  background: var(--checkbox-bg);
+  cursor: pointer;
+
+  &.__disabled {
+    background: var(--checkbox-bg-disabled);
+    & .icon {
+      color: var(--checkbox-check-disabled);
+    }
+  }
+
+  &:not(.__disabled):hover {
+    background: var(--checkbox-bg-hover);
+    outline: 1px solid var(--checkbox-border-hover);
+    outline-offset: -1px;
+    & .icon {
+      color: var(--checkbox-check-hover);
+    }
+  }
+
+  & .icon,
+  & .checkbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  & .checkbox {
+    width: $checkbox-size;
+    height: $checkbox-size;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    opacity: 0;
+  }
+
+  & .icon {
+   color: var(--checkbox-check);
+  }
+}
+
+.select-w {
+  position: relative;
+
+  & .input {
+    margin-bottom: var(--space-xxs);
+  }
+
+  & .dropdown-w {
+    box-shadow: var(--shadow-box-shadow);
+    background: var(--dropdown-options-bg);
+
+    & .option {
+      padding: var(--space-s) var(--space-xs);
+    }
+  }
+}
+

@@ -29,20 +29,3 @@ pre {
   margin: 0;
 }
 
-.select-w {
-  position: relative;
-
-  & .input {
-    margin-bottom: var(--space-xxs);
-  }
-
-  & .dropdown-w {
-    box-shadow: var(--shadow-box-shadow);
-    background: var(--dropdown-options-bg);
-
-    & .option {
-      padding: var(--space-s) var(--space-xs);
-    }
-  }
-}
-

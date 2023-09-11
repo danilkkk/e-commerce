@@ -8,7 +8,9 @@
       "utils": ["utils/*"],
       "assets": ["assets/*"],
       "pages": ["pages/*"],
-      "types": ["types/*"]
+      "types": ["types/*"],
+      "hooks": ["hooks/*"],
+      "api": ["api/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,

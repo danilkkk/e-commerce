@@ -19,7 +19,7 @@ export type TextProps = {
     maxLines?: number;
 };
 
-const Text: React.FC<TextProps> = ({ className, view, tag = 'span', weight, children, color, maxLines }) => {
+const Text: React.FC<TextProps> = ({ className, view, tag = 'p', weight, children, color, maxLines }) => {
     const TagName = tag;
 
     const style = maxLines

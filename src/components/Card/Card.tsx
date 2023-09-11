@@ -27,22 +27,24 @@ export type CardProps = {
 const Card: React.FC<CardProps> = ({ className, image, captionSlot, title, subtitle, contentSlot, onClick, actionSlot }) => {
     return (
         <div className={classNames(styles.card, className)} onClick={onClick}>
-            <img src={image} className={styles.image} />
+            <div className={styles['image-w']}>
+                <img src={image} className={styles.image} />
+            </div>
 
             <div className={styles['content-w']}>
                 {
-                    Boolean(captionSlot) && <Text view={"p-14"} className={styles.caption}>{captionSlot}</Text>
+                    Boolean(captionSlot) && <Text view={"p-14"} className={styles.caption} color={'secondary'}>{captionSlot}</Text>
                 }
                 {
                     Boolean(title) && <Text view={"p-20"} className={styles.title}>{title}</Text>
                 }
                 {
-                    Boolean(subtitle) && <Text view={"p-16"} className={styles.subtitle}>{subtitle}</Text>
+                    Boolean(subtitle) && <Text view={"p-16"} className={styles.subtitle} color={'secondary'}>{subtitle}</Text>
                 }
 
                 <div className={styles['footer-w']}>
                     {
-                        contentSlot && <Text view={"p-18"} className={styles.content}>{contentSlot}</Text>
+                        contentSlot && <Text view={"p-18"} weight={'bold'} className={styles.content}>{contentSlot}</Text>
                     }
                     {
                         Boolean(actionSlot) && actionSlot

@@ -41,6 +41,23 @@
   }
 }
 
+.total-count {
+  display: flex;
+  align-items: center;
+  margin-top: var(--space-l);
+  margin-bottom: var(--space-xl);
+
+ & .count {
+   margin-left: var(--space-m);
+ }
+}
+
+.cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
 .pagination {
   display: flex;
   justify-content: center;

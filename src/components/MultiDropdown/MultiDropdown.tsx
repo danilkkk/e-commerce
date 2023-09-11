@@ -67,7 +67,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
   const openDropdown = () => setIsDropdownOpened(!disabled);
 
   const handleOptionClick = (option: Option) => {
-    const indexOfOption = selectedOptions?.indexOf(option);
+    const indexOfOption = selectedOptions?.findIndex(opt => opt.key === option.key);
 
     let selectedValues;
 
@@ -84,7 +84,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
 
   const [title, setTitle] = React.useState(getTitle(selectedOptions));
 
-  const isSelected = (option: Option, options: Option[]) => options?.includes(option);
+  const isSelected = (option: Option, options: Option[]) => options.find(opt => opt.key === option.key);
 
   React.useEffect(() => {
     setTitle(getTitle(selectedOptions));

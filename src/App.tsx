@@ -26,8 +26,6 @@ const ROUTES: AppRoute[] = [
 const App: React.FC = () => {
     const location = useLocation();
 
-    console.log(location);
-
     return (
         <>
             <Navbar routes={ROUTES} currentRoute={location.pathname} />

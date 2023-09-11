@@ -1,33 +1,105 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Button from 'components/Button';
+import Card from 'components/Card';
+import Input from 'components/Input';
 import Loader from 'components/Loader';
+import MultiDropdown, { Option } from 'components/MultiDropdown';
 import Pagination from 'components/Pagination';
 import Text from 'components/Text';
-import Input from 'components/Input';
-import Button from 'components/Button';
-import MultiDropdown, { Option } from 'components/MultiDropdown';
 import { Product, Category } from 'types';
 
 import styles from './SearchPage.module.scss';
 
 import { data } from './data';
 
-const products = data.products as Product[];
-const categories = data.categories as Category[];
+const products0 = data.products as Product[];
+const categories0 = data.categories as Category[];
+
+const PAGE_NUMBER_PARAM = 'page';
+const FILTERS_PARAM = 'filters';
+const SEARCH_QUERY_PARAM = 'query';
+const ITEMS_PER_PAGE = 10;
+
+const parseFilters = (queryParams: URLSearchParams): number[] => {
+    const filtersIds = queryParams.get(FILTERS_PARAM);
+
+    if (filtersIds) {
+        return filtersIds.split(',')
+            .map(id => Number(id))
+            .filter(id => Number.isInteger(id));
+    }
+
+    return [];
+}
+
+const categoryToOption = (categories: Category[]) => categories.map(category => ({
+    key: category.id,
+    value: category.name
+})).filter((x, i, a) => a.indexOf(x) === i)
+
+const parseQuery = (queryParams: URLSearchParams): [number, string, number[]] => {
+    const queryPageNumber = +queryParams.get(PAGE_NUMBER_PARAM);
+    const pageNumber = Number.isInteger(queryPageNumber) && queryPageNumber > 0 ? queryPageNumber : 1;
+    const searchString = queryParams.get(SEARCH_QUERY_PARAM) ?? '';
+    const filtersIds = parseFilters(queryParams);
+
+    return [
+        pageNumber,
+        searchString,
+        filtersIds
+    ]
+}
+
+const fetchProducts = () => {
+    return Promise.resolve(products0);
+}
+
+const fetchCategories = () => {
+    return Promise.resolve(categories0);
+}
+
+function getCurrentPageItems<T> (items: T[], pageNumber: number = 1) {
+    return items.slice((pageNumber - 1) * ITEMS_PER_PAGE, pageNumber * ITEMS_PER_PAGE);
+}
 
 const SearchPage: React.FC = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const queryParams = new URLSearchParams(location.search);
+
+    const handleParamUpdate = () => {
+        const newSearch = `?${queryParams.toString()}`;
+        navigate({ search: newSearch });
+    }
+
+    const [pageNumber, searchString, filtersIds] = parseQuery(queryParams);
+
+    const [enabledFilters, setFilters] = React.useState<Option[] | undefined>(undefined);
+
+    const [products, setProducts] = React.useState<Product[] | undefined>(undefined);
+    const [displayedProducts, setDisplayedProducts] = React.useState<Product[] | undefined>(undefined);
+    const [categories, setCategories] = React.useState<Option[] | undefined>(undefined);
     const [isLoading, setLoading] = React.useState<boolean>(false);
     const [currentPage, setCurrentPage] = React.useState<number>(1);
-    const handlePageChanging = (nextNumber: number) => setCurrentPage(nextNumber);
 
-    const itemsCount = products.length;
+    const handlePageChanging = (nextNumber: number) => {
+        setCurrentPage(nextNumber);
+        queryParams.set(PAGE_NUMBER_PARAM, String(nextNumber));
+        handleParamUpdate();
+        setDisplayedProducts(getCurrentPageItems(products!, currentPage));
+    };
 
-    const categoriesAsOptions = categories.map(category => ({
-        key: category.id,
-        value: category.name
-    }));
+    React.useEffect(() => {
+        Promise.all([fetchProducts(), fetchCategories()])
+            .then(responses => {
+                setProducts(responses[0]);
+                setDisplayedProducts(getCurrentPageItems(responses[0], currentPage))
+                setCategories(categoryToOption(responses[1]));
+                setFilters(categoryToOption(filtersIds.map(filterId => categories.find(category => category.id == filterId)).filter(c => c)));
+        })
 
-    console.log(products);
-    console.log(categories);
+    }, []);
 
     if (isLoading) {
         return (
@@ -55,9 +127,18 @@ const SearchPage: React.FC = () => {
         </div>
     );
 
+    const onSearchInputChange = (value: string) => {
+        queryParams.set(SEARCH_QUERY_PARAM, String(value));
+        handleParamUpdate();
+    }
+
     const searchInput = (
         <div className={styles['input-w']}>
-            <Input className={styles['search-input']} placeholder={'Search product'} />
+            <Input className={styles['search-input']}
+                   placeholder={'Search product'}
+                   onChange={onSearchInputChange}
+                   value={searchString}
+            />
 
             <Button>
                 <Text>
@@ -69,23 +150,53 @@ const SearchPage: React.FC = () => {
 
     const getTitle = (value: Option[]) => value?.length ? value.map(v => v.value).join(', ') : 'Filter';
 
-    const onFiltersChange = (value: Option[]) => console.log('filters changed', value);
+    const onFiltersChange = (value: Option[]) => {
+        setFilters(value);
+        queryParams.set(FILTERS_PARAM, value.map(v => v.key).join(','));
+        handleParamUpdate();
+    };
 
-    const productsFilter = (
+    const productsFilter = categories ? (
         <div className={styles['filter-wrapper']}>
             <MultiDropdown className={styles['filter']}
-                           options={categoriesAsOptions}
+                           options={categories}
                            onChange={onFiltersChange}
                            getTitle={getTitle}
+                           value={enabledFilters}
             />
         </div>
-    );
+    ) : null;
 
-    const productsList = (
-        <div>
-            контент
-        </div>
-    );
+    const productsList = products ? (
+        <>
+            <div className={styles['total-count']}>
+                <Text view={'title'}>Total Product</Text>
+                <Text className={styles['count']} view={'p-20'} color={'accent'}>{products?.length}</Text>
+            </div>
+
+            <div className={styles['cards-wrapper']}>
+                {
+                    displayedProducts.map((product: Product) => (
+                        <Card key={product.id}
+                              title={product.title}
+                              subtitle={product.description}
+                              captionSlot={product.category}
+                              contentSlot={product.price}
+                              image={product.images}
+                              onClick={() => navigate(`/product/${product.id}`)}
+                              actionSlot={<Button>Add to Cart</Button>}
+                        />
+                    ))
+                }
+            </div>
+
+            <Pagination className={styles.pagination}
+                        currentPage={pageNumber}
+                        pagesCount={Math.ceil(products.length / ITEMS_PER_PAGE)}
+                        onItemClick={handlePageChanging}
+            />
+        </>
+    ) : null;
 
     return (
         <>
@@ -96,12 +207,6 @@ const SearchPage: React.FC = () => {
             { productsFilter }
 
             { productsList }
-
-            <Pagination className={styles.pagination}
-                        currentPage={currentPage}
-                        pagesCount={10}
-                        onItemClick={handlePageChanging}
-            />
         </>
     )
 }

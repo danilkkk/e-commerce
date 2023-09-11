@@ -46,7 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({ className, pagesCount, currentP
                          key={index}
                          onClick={() => itemClickWrapper(item)}
                     >
-                        <Text view={'p-18'} className={classNames()} >
+                        <Text view={'p-18'} className={styles.text} >
                             {
                                 item.displayedText
                             }

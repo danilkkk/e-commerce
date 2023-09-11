@@ -10,7 +10,7 @@ const NotFoundPage: React.FC = () => {
                 Упс!
             </Text>
 
-            <Text tag={'h3'}>
+            <Text view={'p-20'} color={'secondary'}>
                 Такой страницы не существует
             </Text>
         </div>

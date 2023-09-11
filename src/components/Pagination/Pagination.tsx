@@ -18,7 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({ className, pagesCount, currentP
     const activeRightArrow = currentPage !== pagesCount;
 
     const itemClickWrapper = (item: PaginationItem) => {
-        if (item.pageNumber) {
+        if (item.pageNumber && !item.active) {
             onItemClick(item.pageNumber);
         }
     }

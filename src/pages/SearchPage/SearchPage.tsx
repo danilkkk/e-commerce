@@ -19,7 +19,7 @@ const categories0 = data.categories as Category[];
 const PAGE_NUMBER_PARAM = 'page';
 const FILTERS_PARAM = 'filters';
 const SEARCH_QUERY_PARAM = 'query';
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 12;
 
 const parseFilters = (queryParams: URLSearchParams): number[] => {
     const filtersIds = queryParams.get(FILTERS_PARAM);
@@ -81,13 +81,13 @@ const SearchPage: React.FC = () => {
     const [displayedProducts, setDisplayedProducts] = React.useState<Product[] | undefined>(undefined);
     const [categories, setCategories] = React.useState<Option[] | undefined>(undefined);
     const [isLoading, setLoading] = React.useState<boolean>(false);
-    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const [currentPage, setCurrentPage] = React.useState<number>(pageNumber);
 
     const handlePageChanging = (nextNumber: number) => {
         setCurrentPage(nextNumber);
+        setDisplayedProducts(getCurrentPageItems(products!, nextNumber));
         queryParams.set(PAGE_NUMBER_PARAM, String(nextNumber));
         handleParamUpdate();
-        setDisplayedProducts(getCurrentPageItems(products!, currentPage));
     };
 
     React.useEffect(() => {

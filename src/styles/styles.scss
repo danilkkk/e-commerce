@@ -79,55 +79,6 @@ $input-height: 24px;
   }
 }
 
-$checkbox-size: 40px;
-
-.checkbox-w {
-  position: relative;
-  width: $checkbox-size;
-  height: $checkbox-size;
-  border-radius: var(--border-radius);
-  background: var(--checkbox-bg);
-  cursor: pointer;
-
-  &.__disabled {
-    background: var(--checkbox-bg-disabled);
-    & .icon {
-      color: var(--checkbox-check-disabled);
-    }
-  }
-
-  &:not(.__disabled):hover {
-    background: var(--checkbox-bg-hover);
-    outline: 1px solid var(--checkbox-border-hover);
-    outline-offset: -1px;
-    & .icon {
-      color: var(--checkbox-check-hover);
-    }
-  }
-
-  & .icon,
-  & .checkbox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
-
-  & .checkbox {
-    width: $checkbox-size;
-    height: $checkbox-size;
-    margin: 0;
-    border: 0;
-    outline: 0;
-    opacity: 0;
-  }
-
-  & .icon {
-   color: var(--checkbox-check);
-  }
-}
-
 .select-w {
   position: relative;
 

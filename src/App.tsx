@@ -32,13 +32,15 @@ const App: React.FC = () => {
         <>
             <Navbar routes={ROUTES} currentRoute={location.pathname} />
 
-            <Routes>
-                <Route path='/' element={<SearchPage />} />
-                <Route path='/product/:id' element={<ProductPage />} />
-                <Route path='/categories' element={<CategoriesPage />} />
-                <Route path='/about' element={<AboutPage />} />
-                <Route path='/*'  replace element={<NotFoundPage />}/>
-            </Routes>
+            <div className={'page'}>
+                <Routes>
+                    <Route path='/' element={<SearchPage />} />
+                    <Route path='/product/:id' element={<ProductPage />} />
+                    <Route path='/categories' element={<CategoriesPage />} />
+                    <Route path='/about' element={<AboutPage />} />
+                    <Route path='/*'  replace element={<NotFoundPage />}/>
+                </Routes>
+            </div>
         </>
     )
 

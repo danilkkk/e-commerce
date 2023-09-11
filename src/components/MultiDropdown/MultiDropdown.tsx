@@ -32,13 +32,13 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
   const wrapperClassNames = classNames(styles['select-w'], 'js-select-wrapper', className);
 
   const [displayedOptions, setDisplayed] = React.useState<Option[]>(options);
-  const [selectedOptions, setSelected] = React.useState<Option[]>(value);
+  const [selectedOptions, setSelected] = React.useState<Option[]>(value ?? []);
   const [isDropdownOpened, setIsDropdownOpened] = React.useState<boolean>(false);
 
-  React.useEffect(() => setSelected(value), [value]);
+  React.useEffect(() => setSelected(value ?? []), [value]);
 
   React.useEffect(() => {
-    setSelected(value);
+    setSelected(value ?? []);
     setDisplayed(options);
   }, [options]);
 
@@ -67,26 +67,24 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
   const openDropdown = () => setIsDropdownOpened(!disabled);
 
   const handleOptionClick = (option: Option) => {
-    const indexOfOption = selectedOptions.indexOf(option);
+    const indexOfOption = selectedOptions?.indexOf(option);
 
     let selectedValues;
 
     if (indexOfOption !== -1) {
       selectedValues = [...selectedOptions.slice(0, indexOfOption), ...selectedOptions.slice(indexOfOption + 1)];
-      onChange(selectedValues);
     } else {
       selectedValues = [...selectedOptions, option];
-      onChange([option]);
     }
 
-    console.log(selectedValues);
+    onChange(selectedValues);
 
     setSelected(selectedValues);
   }
 
   const [title, setTitle] = React.useState(getTitle(selectedOptions));
 
-  const isSelected = (option: Option, options: Option[]) => options.includes(option);
+  const isSelected = (option: Option, options: Option[]) => options?.includes(option);
 
   React.useEffect(() => {
     setTitle(getTitle(selectedOptions));
@@ -95,11 +93,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({ className, options, value
   const arrowDown = <ArrowDownIcon className={styles['open-dropdown']}/>;
 
   return (
-      <div className={wrapperClassNames}>
+      <div className={wrapperClassNames}
+           onClick={openDropdown}
+      >
         <Input className={styles['input']}
-               value={selectedOptions.length ? title : ''}
-               placeholder={!selectedOptions.length ? title : ''}
-               onClick={openDropdown}
+               value={selectedOptions?.length ? title : ''}
+               placeholder={title}
                onChange={onInputChange}
                afterSlot={arrowDown}
         />

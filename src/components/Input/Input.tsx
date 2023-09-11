@@ -17,8 +17,7 @@ export type InputProps = Omit<
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (props, ref) => {
-    const { className, onChange, onFocus, onBlur, value, afterSlot } = props;
+  ({ className, onChange, onFocus, onBlur, value, afterSlot, ...props }, ref) => {
 
     const [inputValue, setInputValue] = React.useState(value);
     const [isFocused, setFocusState] = React.useState(false);
@@ -47,8 +46,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     const inputClassNames = classNames([
-        className,
         styles['input-w'],
+        className,
         afterSlot && styles['__with-icon'],
         !inputValue && styles['__empty'],
         isFocused && styles['__focus']
@@ -56,14 +55,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
         <div className={inputClassNames}>
-            <input  className={styles['input']}
-                    type={"text"}
-                    {...props}
-                    ref={ref}
-                    value={inputValue}
-                    onChange={onChangeWrapper}
-                    onFocus={onFocusWrapper}
-                    onBlur={onBlurWrapper}
+            <input className={styles['input']}
+                   {...props}
+                   type={"text"}
+                   ref={ref}
+                   value={inputValue}
+                   onChange={onChangeWrapper}
+                   onFocus={onFocusWrapper}
+                   onBlur={onBlurWrapper}
             />
 
             {

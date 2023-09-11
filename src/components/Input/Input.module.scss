@@ -1,0 +1,49 @@
+$input-height: 24px;
+
+.input-w {
+  background: var(--input-bg);
+  display: flex;
+  align-items: center;
+  padding: var(--space-s) var(--space-xs) var(--space-s) var(--space-s);
+
+  &.__with-icon {
+
+  }
+
+  &:not(.__disabled).__focus {
+    outline: 1px solid var(--input-border-focus);
+    background: var(--input-bg-focus);
+    color: var(--input-text-focus);
+  }
+  &.__empty,
+  &.__disabled {
+    background: var(--input-bg-disabled);
+    color: var(--input-text-disabled);
+  }
+
+  & .custom-input {
+    width: 100%;
+    height: $input-height;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    border-radius: 0;
+    color: inherit;
+
+    &:focus {
+      border: none;
+      outline: none;
+      background: transparent;
+    }
+  }
+
+  & .slot-w {
+    width: $input-height;
+    height: $input-height;
+    margin-left: var(--space-xxs);
+  }
+}

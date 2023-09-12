@@ -6,6 +6,7 @@ import Loader from 'components/Loader';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
 import Pagination from 'components/Pagination';
 import Text from 'components/Text';
+import HeaderCounter from 'components/HeaderCounter';
 import useQuery from 'hooks/useQuery';
 import { Product, Category } from 'types';
 import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from 'utils/query';
@@ -132,10 +133,10 @@ const SearchPage: React.FC = () => {
 
     const productsList = products ? (
         <>
-            <div className={styles['total-count']}>
-                <Text view={'title'}>Total Product</Text>
-                <Text className={styles['count']} view={'p-20'} color={'accent'}>{products?.length}</Text>
-            </div>
+            <HeaderCounter className={styles['counter']}
+                           title={'Total Product'}
+                           count={products?.length}
+            />
 
             <div className={styles['cards-wrapper']}>
                 {

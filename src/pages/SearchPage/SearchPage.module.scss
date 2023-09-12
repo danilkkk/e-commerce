@@ -41,15 +41,9 @@
   }
 }
 
-.total-count {
-  display: flex;
-  align-items: center;
+.counter {
   margin-top: var(--space-l);
   margin-bottom: var(--space-xl);
-
- & .count {
-   margin-left: var(--space-m);
- }
 }
 
 .cards-wrapper {

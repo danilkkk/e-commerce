@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Category, Product, ProductsResponse } from 'types';
+import { cacheable } from 'utils/cacheble';
 
 const BASE_URL = 'https://kts-store-api.glitch.me/api';
 
@@ -16,14 +17,17 @@ class Api {
         this.baseUrl = baseUrl;
     }
 
+    @cacheable
     public fetchCategories(): Promise<Category[]> {
         return this.get<Category[]>(ENDPOINTS.Categories);
     }
 
+    @cacheable
     public fetchCategory(id: number): Promise<Category> {
         return this.get<Category>(Api.getPathWithId(ENDPOINTS.Categories, id));
     }
 
+    @cacheable
     public fetchProducts(offset: number, limit: number, substring?: string, include?: number[]): Promise<ProductsResponse> {
         return this.get<Category[]>(ENDPOINTS.Categories).then(products => ({
             products: offset === 0 ? products.slice(0, limit) : products,
@@ -37,6 +41,7 @@ class Api {
         }));
     }
 
+    @cacheable
     public fetchProduct(id: number): Promise<Product> {
         return this.get<Product>(Api.getPathWithId(ENDPOINTS.Product, id));
     }

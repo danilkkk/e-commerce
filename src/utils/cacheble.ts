@@ -7,7 +7,7 @@ export function cacheable(target: any, name: string, descriptor: PropertyDescrip
     const cache: Cache = {};
 
     descriptor.value = function proxy() {
-        const key = Array.from(arguments).join(',');
+        const key = JSON.stringify(arguments);
 
         if (!cache[key]) {
             cache[key] = originalMethod.apply(this, arguments);

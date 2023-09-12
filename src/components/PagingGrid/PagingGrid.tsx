@@ -1,7 +1,9 @@
-import React from 'react';
-import styles from './PagingGrid.module.scss';
 import classNames from 'classnames';
+import React from 'react';
+import Loader from 'components/Loader';
 import Pagination from 'components/Pagination';
+
+import styles from './PagingGrid.module.scss';
 
 export interface PagingGridProps<T> {
     className?: string;
@@ -25,11 +27,15 @@ const PagingGrid = <T,>({ items, totalCount, renderItem, itemsPerPage, currentPa
                 }
             </div>
 
-            <Pagination className={styles.pagination}
-                        currentPage={currentPage}
-                        pagesCount={pagesCount}
-                        onItemClick={onChangePage}
-            />
+            {
+                totalCount > 0 && (
+                    <Pagination className={styles.pagination}
+                                currentPage={currentPage}
+                                pagesCount={pagesCount}
+                                onItemClick={onChangePage}
+                    />
+                )
+            }
         </>
     )
 }

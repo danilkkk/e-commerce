@@ -27,11 +27,21 @@ class Api {
         return this.get<Category>(Api.getPathWithId(ENDPOINTS.Categories, id));
     }
 
-    @cacheable
-    public fetchProducts(offset: number, limit: number, substring?: string, include?: number[]): Promise<ProductsResponse> {
-        return this.get<Category[]>(ENDPOINTS.Categories).then(products => ({
-            products: offset === 0 ? products.slice(0, limit) : products,
-            totalCount: offset === 0 ? products.length : undefined,
+    public fetchProducts(initial: boolean, offset: number, limit: number, substring?: string, filters?: number[]): Promise<ProductsResponse> {
+        const loadAllItems = initial || offset === 0;
+        const fixedLimit = loadAllItems ? undefined : limit;
+        const include = filters ? filters.join('|') : undefined;
+
+        const params = {
+            offset,
+            limit: fixedLimit,
+            substring,
+            include,
+        }
+
+        return this.get<Category[]>(ENDPOINTS.Products, params).then(products => ({
+            products: loadAllItems ? products.slice(0, limit) : products,
+            totalCount: loadAllItems ? products.length ?? 0 : undefined,
             request: {
                 offset,
                 limit,
@@ -47,7 +57,7 @@ class Api {
     }
 
     private get<T>(path: string, params?: any): Promise<T> {
-        return axios.get<T>(this.getUrl(path), { params });
+        return axios.get<T>(this.getUrl(path), { params }).then(response => response.data);
     }
 
     private getUrl(path: string): string {

@@ -13,7 +13,7 @@ const HeaderCounter: React.FC<HeaderCounterProps> = ({ className, title, count }
     return (
         <div className={classNames(className, styles['wrapper'])}>
             <Text view={'title'}>{title}</Text>
-            <Text className={styles['count']} view={'p-20'} color={'accent'}>{count}</Text>
+            <Text className={styles['count']} view={'p-20'} color={'accent'}>{String(count)}</Text>
         </div>
     )
 }

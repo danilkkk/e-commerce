@@ -53,7 +53,7 @@ class Api {
 
     @cacheable
     public fetchProduct(id: number): Promise<Product> {
-        return this.get<Product>(Api.getPathWithId(ENDPOINTS.Product, id));
+        return this.get<Product>(Api.getPathWithId(ENDPOINTS.Products, id));
     }
 
     private get<T>(path: string, params?: any): Promise<T> {

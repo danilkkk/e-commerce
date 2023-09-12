@@ -17,3 +17,14 @@ export interface Product {
     images: string[];
     category: Category;
 }
+
+export interface ProductsResponse {
+    products: Product[];
+    totalCount?: number;
+    request: {
+        subtitle?: string;
+        offset?: number;
+        limit?: number;
+        include?: number[];
+    }
+}

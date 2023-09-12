@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import Button from 'components/Button';
 import Card from 'components/Card';
 import Input from 'components/Input';
@@ -7,6 +6,7 @@ import Loader from 'components/Loader';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
 import Pagination from 'components/Pagination';
 import Text from 'components/Text';
+import useQuery from 'hooks/useQuery';
 import { Product, Category } from 'types';
 import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from 'utils/query';
 
@@ -37,14 +37,7 @@ function getCurrentPageItems<T> (items: T[], pageNumber: number = 1) {
 }
 
 const SearchPage: React.FC = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const queryParams = new URLSearchParams(location.search);
-
-    const handleParamUpdate = () => {
-        const newSearch = `?${queryParams.toString()}`;
-        navigate({ search: newSearch });
-    }
+    const [queryParams, updateParams] = useQuery();
 
     const [pageNumber, searchString, filtersIds] = parseQuery(queryParams);
 
@@ -59,8 +52,7 @@ const SearchPage: React.FC = () => {
     const handlePageChanging = (nextNumber: number) => {
         setCurrentPage(nextNumber);
         setDisplayedProducts(getCurrentPageItems(products!, nextNumber));
-        queryParams.set(PAGE_NUMBER_PARAM, String(nextNumber));
-        handleParamUpdate();
+        updateParams(PAGE_NUMBER_PARAM, String(nextNumber));
     };
 
     React.useEffect(() => {
@@ -73,6 +65,17 @@ const SearchPage: React.FC = () => {
         })
 
     }, []);
+
+    const onSearchInputChange = (value: string) => {
+        updateParams(SEARCH_QUERY_PARAM, String(value));
+    }
+
+    const getTitle = (value: Option[]) => value?.length ? value.map(v => v.value).join(', ') : 'Filter';
+
+    const onFiltersChange = (value: Option[]) => {
+        setFilters(value);
+        updateParams(FILTERS_PARAM, value.map(v => v.key).join(','));
+    };
 
     if (isLoading) {
         return (
@@ -100,11 +103,6 @@ const SearchPage: React.FC = () => {
         </div>
     );
 
-    const onSearchInputChange = (value: string) => {
-        queryParams.set(SEARCH_QUERY_PARAM, String(value));
-        handleParamUpdate();
-    }
-
     const searchInput = (
         <div className={styles['input-w']}>
             <Input className={styles['search-input']}
@@ -120,14 +118,6 @@ const SearchPage: React.FC = () => {
             </Button>
         </div>
     );
-
-    const getTitle = (value: Option[]) => value?.length ? value.map(v => v.value).join(', ') : 'Filter';
-
-    const onFiltersChange = (value: Option[]) => {
-        setFilters(value);
-        queryParams.set(FILTERS_PARAM, value.map(v => v.key).join(','));
-        handleParamUpdate();
-    };
 
     const productsFilter = categories ? (
         <div className={styles['filter-wrapper']}>

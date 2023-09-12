@@ -50,17 +50,20 @@ const SearchPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = React.useState<string>(searchString);
 
     const handlePageChanging = (nextNumber: number) => {
-        setCurrentPage(nextNumber);
-        updateParams(PAGE_NUMBER_PARAM, String(nextNumber));
-        setProducts(undefined);
-        const offset = (nextNumber - 1) * ITEMS_PER_PAGE;
+        fetchPage(nextNumber, searchQuery, enabledFilters);
+    };
 
-        fetchProducts(offset, searchQuery, enabledFilters.map(category => category.key)).then(data => {
+    const fetchPage = (pageNumber: number, searchQuery, enabledCategories?: Option[]) => {
+        setCurrentPage(pageNumber);
+        updateParams(PAGE_NUMBER_PARAM, String(pageNumber));
+        setProducts(undefined);
+        const offset = (pageNumber - 1) * ITEMS_PER_PAGE;
+
+        fetchProducts(offset, searchQuery, enabledCategories?.map(category => category.key)).then(data => {
             setProducts(data.products);
             setTotalCount(value => Number.isInteger(data.totalCount) ? data.totalCount : value);
         });
-    };
-
+    }
 
     React.useEffect(() => {
         Promise.all([fetchProducts((pageNumber - 1) * ITEMS_PER_PAGE, searchString, filtersIds,true), fetchCategories()])
@@ -78,6 +81,7 @@ const SearchPage: React.FC = () => {
         setSearchQuery(value);
         updateParams(SEARCH_QUERY_PARAM, String(value));
         handlePageChanging(1);
+        fetchPage(1, value, enabledFilters);
     }
 
     const getTitle = (value: Option[]) => value?.length ? value.map(v => v.value).join(', ') : 'Filter';
@@ -85,7 +89,7 @@ const SearchPage: React.FC = () => {
     const onFiltersChange = (value: Option[]) => {
         setFilters(value);
         updateParams(FILTERS_PARAM, value.map(v => v.key).join(','));
-        handlePageChanging(1);
+        fetchPage(1, searchQuery, value);
     };
 
     if (isLoading) {

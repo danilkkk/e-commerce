@@ -7,6 +7,7 @@ import Loader from 'components/Loader';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
 import PagingGrid from 'components/PagingGrid';
 import Text from 'components/Text';
+import TextWithTitle from 'components/TextWithTitle';
 import useQuery from 'hooks/useQuery';
 import { Product, Category } from 'types';
 import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from 'utils/query';
@@ -98,25 +99,6 @@ const SearchPage: React.FC = () => {
         />
     );
 
-
-    const pageDescription = (
-        <div className={styles['page-description']}>
-            <Text className={styles.title}
-                  view={'title'}
-            >
-                Products
-            </Text>
-
-            <Text className={styles.subtitle}
-                  color={'secondary'}
-                  view={'p-20'}
-            >
-                We display products based on the latest products we have, if you want
-                to see our old products please enter the name of the item
-            </Text>
-        </div>
-    );
-
     const searchInput = (
         <div className={styles['input-w']}>
             <Input className={styles['search-input']}
@@ -144,33 +126,34 @@ const SearchPage: React.FC = () => {
         </div>
     ) : null;
 
-    const productsList = products ? (
-        <>
-            <HeaderCounter className={styles['counter']}
-                           title={'Total Product'}
-                           count={products?.length}
-            />
-
-            <PagingGrid className={styles['grid']}
-                        renderItem={renderCard}
-                        currentPage={pageNumber}
-                        itemsPerPage={ITEMS_PER_PAGE}
-                        onChangePage={handlePageChanging}
-                        totalCount={products.length}
-                        items={displayedProducts}
-            />
-        </>
-    ) : null;
-
     return (
         <>
-            { pageDescription }
+            <TextWithTitle className={styles['page-description']}
+                           title={'Products'}
+                           text={'We display products based on the latest products we have, if you want to see our old products please enter the name of the item'}
+            />
 
             { searchInput }
 
             { productsFilter }
 
-            { productsList }
+            {
+                Boolean(products) && <>
+                    <HeaderCounter className={styles['counter']}
+                                   title={'Total Product'}
+                                   count={products?.length}
+                    />
+
+                    <PagingGrid className={styles['grid']}
+                                renderItem={renderCard}
+                                currentPage={pageNumber}
+                                itemsPerPage={ITEMS_PER_PAGE}
+                                onChangePage={handlePageChanging}
+                                totalCount={products.length}
+                                items={displayedProducts}
+                    />
+                </>
+            }
         </>
     )
 }

@@ -17,7 +17,6 @@ import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from
 import styles from './SearchPage.module.scss';
 
 const ITEMS_PER_PAGE = 12;
-const DELAY = 300;
 
 const categoryToOption = (categories: Category[]) => categories.map(category => ({
     key: category.id,
@@ -25,10 +24,7 @@ const categoryToOption = (categories: Category[]) => categories.map(category => 
 })).filter((x, i, a) => a.indexOf(x) === i)
 
 const fetchProducts = (offset: number = 0, substring: string, filtersIds: number[], initial = false) => {
-    return api.fetchProducts(initial, offset, ITEMS_PER_PAGE, substring, filtersIds).then(r => {
-        console.log(r);
-        return r;
-    });
+    return api.fetchProducts(initial, offset, ITEMS_PER_PAGE, substring, filtersIds);
 }
 
 const fetchCategories = () => {

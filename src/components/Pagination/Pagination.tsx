@@ -70,10 +70,7 @@ interface PaginationItem {
 const ELLIPSIS =  getPaginationItem(undefined, false, '...');
 
 function getPaginationItems(pagesCount: number, currentPage: number): PaginationItem[] {
-    console.log(pagesCount, currentPage);
-
     const items: PaginationItem[] = [];
-
     const leftBound = currentPage > RANGE * 2 ? Math.max(1, currentPage - RANGE) : 1;
     const rightBound = Math.min(pagesCount, currentPage + RANGE);
 

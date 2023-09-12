@@ -46,18 +46,6 @@
   margin-bottom: var(--space-xl);
 }
 
-.cards-wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 48px;
-}
-
 .loader-wrapper {
   display: flex;
   justify-content: center;

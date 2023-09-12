@@ -4,7 +4,6 @@ import Card from 'components/Card';
 import Input from 'components/Input';
 import Loader from 'components/Loader';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
-import Pagination from 'components/Pagination';
 import Text from 'components/Text';
 import HeaderCounter from 'components/HeaderCounter';
 import useQuery from 'hooks/useQuery';
@@ -14,6 +13,7 @@ import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from
 import styles from './SearchPage.module.scss';
 
 import { data } from './data';
+import PagingGrid from "../../components/PagingGrid";
 
 const products0 = data.products as Product[];
 const categories0 = data.categories as Category[];
@@ -38,7 +38,7 @@ function getCurrentPageItems<T> (items: T[], pageNumber: number = 1) {
 }
 
 const SearchPage: React.FC = () => {
-    const [queryParams, updateParams] = useQuery();
+    const [queryParams, updateParams, navigate] = useQuery();
 
     const [pageNumber, searchString, filtersIds] = parseQuery(queryParams);
 
@@ -85,6 +85,19 @@ const SearchPage: React.FC = () => {
             </div>
         )
     }
+
+    const renderCard = (product: Product) => (
+        <Card key={product.id}
+              title={product.title}
+              subtitle={product.description}
+              captionSlot={product.category}
+              contentSlot={product.price}
+              image={product.images}
+              onClick={() => navigate(`/product/${product.id}`)}
+              actionSlot={<Button>Add to Cart</Button>}
+        />
+    );
+
 
     const pageDescription = (
         <div className={styles['page-description']}>
@@ -138,26 +151,13 @@ const SearchPage: React.FC = () => {
                            count={products?.length}
             />
 
-            <div className={styles['cards-wrapper']}>
-                {
-                    displayedProducts.map((product: Product) => (
-                        <Card key={product.id}
-                              title={product.title}
-                              subtitle={product.description}
-                              captionSlot={product.category}
-                              contentSlot={product.price}
-                              image={product.images}
-                              onClick={() => navigate(`/product/${product.id}`)}
-                              actionSlot={<Button>Add to Cart</Button>}
-                        />
-                    ))
-                }
-            </div>
-
-            <Pagination className={styles.pagination}
+            <PagingGrid className={styles['grid']}
+                        renderItem={renderCard}
                         currentPage={pageNumber}
-                        pagesCount={Math.ceil(products.length / ITEMS_PER_PAGE)}
-                        onItemClick={handlePageChanging}
+                        itemsPerPage={ITEMS_PER_PAGE}
+                        onChangePage={handlePageChanging}
+                        totalCount={products.length}
+                        items={displayedProducts}
             />
         </>
     ) : null;

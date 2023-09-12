@@ -11,5 +11,5 @@ export default function useQuery() {
         navigate({ search: newSearch });
     }
 
-    return [queryParams, updateParam];
+    return [queryParams, updateParam, navigate];
 }

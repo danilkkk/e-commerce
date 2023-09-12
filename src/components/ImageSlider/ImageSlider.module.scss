@@ -6,6 +6,7 @@
 
 .wrapper {
   display: flex;
+  transition: transform .3s ease-out;
 }
 
 .arrow {

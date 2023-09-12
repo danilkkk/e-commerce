@@ -1,11 +1,12 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import api from 'api';
 import BackButton from 'components/BackButton';
 import Button from 'components/Button';
+import ImageSlider from 'components/ImageSlider';
 import Loader from 'components/Loader';
-import Text from 'components/Text';
 import OutlineButton from 'components/OutlineButton';
+import Text from 'components/Text';
 import type { Product } from 'types';
 
 import styles from './ProductPage.module.scss';
@@ -13,12 +14,10 @@ import styles from './ProductPage.module.scss';
 const ProductPage: React.FC = () => {
     const [isLoading, setLoading] = React.useState<boolean>(true);
     const [product, setProduct] = React.useState<Product | undefined>(undefined);
-    const navigate = useNavigate();
     const { id } = useParams();
 
     React.useEffect(() => {
         api.fetchProduct(+id).then(product => {
-            console.log(product);
             setProduct(product);
             setLoading(false);
         });
@@ -39,9 +38,11 @@ const ProductPage: React.FC = () => {
             <BackButton className={styles['back-button']}/>
 
             <div className={styles['product']}>
-                <div className={styles['image-w']}>
-                    <img className={styles['image']} src={product.images} alt=""/>
-                </div>
+                <ImageSlider className={styles['slider']}
+                             images={product.images}
+                             width={600}
+                             height={600}
+                />
 
                 <div className={styles['info']}>
                     <Text className={styles['title']}

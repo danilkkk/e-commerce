@@ -8,6 +8,7 @@ import MultiDropdown, { Option } from 'components/MultiDropdown';
 import Pagination from 'components/Pagination';
 import Text from 'components/Text';
 import { Product, Category } from 'types';
+import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from 'utils/query';
 
 import styles from './SearchPage.module.scss';
 
@@ -16,40 +17,12 @@ import { data } from './data';
 const products0 = data.products as Product[];
 const categories0 = data.categories as Category[];
 
-const PAGE_NUMBER_PARAM = 'page';
-const FILTERS_PARAM = 'filters';
-const SEARCH_QUERY_PARAM = 'query';
 const ITEMS_PER_PAGE = 12;
-
-const parseFilters = (queryParams: URLSearchParams): number[] => {
-    const filtersIds = queryParams.get(FILTERS_PARAM);
-
-    if (filtersIds) {
-        return filtersIds.split(',')
-            .map(id => Number(id))
-            .filter(id => Number.isInteger(id));
-    }
-
-    return [];
-}
 
 const categoryToOption = (categories: Category[]) => categories.map(category => ({
     key: category.id,
     value: category.name
 })).filter((x, i, a) => a.indexOf(x) === i)
-
-const parseQuery = (queryParams: URLSearchParams): [number, string, number[]] => {
-    const queryPageNumber = +queryParams.get(PAGE_NUMBER_PARAM);
-    const pageNumber = Number.isInteger(queryPageNumber) && queryPageNumber > 0 ? queryPageNumber : 1;
-    const searchString = queryParams.get(SEARCH_QUERY_PARAM) ?? '';
-    const filtersIds = parseFilters(queryParams);
-
-    return [
-        pageNumber,
-        searchString,
-        filtersIds
-    ]
-}
 
 const fetchProducts = () => {
     return Promise.resolve(products0);

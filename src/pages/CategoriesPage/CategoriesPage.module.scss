@@ -5,3 +5,11 @@
   align-items: center;
   height: calc(100vh - 90px);
 }
+
+.card + .card {
+  margin-top: var(--space-m);
+}
+
+.categories-wrapper {
+  margin-top: var(--space-m);
+}

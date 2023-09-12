@@ -1,11 +1,12 @@
 import React from 'react';
 import Button from 'components/Button';
 import Card from 'components/Card';
+import HeaderCounter from 'components/HeaderCounter';
 import Input from 'components/Input';
 import Loader from 'components/Loader';
 import MultiDropdown, { Option } from 'components/MultiDropdown';
+import PagingGrid from 'components/PagingGrid';
 import Text from 'components/Text';
-import HeaderCounter from 'components/HeaderCounter';
 import useQuery from 'hooks/useQuery';
 import { Product, Category } from 'types';
 import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from 'utils/query';
@@ -13,7 +14,6 @@ import parseQuery, { PAGE_NUMBER_PARAM, FILTERS_PARAM, SEARCH_QUERY_PARAM } from
 import styles from './SearchPage.module.scss';
 
 import { data } from './data';
-import PagingGrid from "../../components/PagingGrid";
 
 const products0 = data.products as Product[];
 const categories0 = data.categories as Category[];

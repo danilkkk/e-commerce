@@ -1,0 +1,30 @@
+.input-w {
+  display: flex;
+  justify-content: space-between;
+
+  & .search-input {
+    flex-grow: 1;
+    margin-right: var(--space-xs);
+  }
+}
+
+.filter-wrapper {
+  display: flex;
+  margin-top: var(--space-m);
+
+  & .filter {
+
+  }
+}
+
+.counter {
+  margin-top: var(--space-l);
+  margin-bottom: var(--space-xl);
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 90px);
+}

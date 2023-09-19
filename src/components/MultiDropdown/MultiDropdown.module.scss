@@ -1,0 +1,25 @@
+.select-w {
+  position: relative;
+
+  & .input {
+    margin-bottom: var(--space-xxs);
+  }
+
+  & .dropdown-w {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + var(--space-xxs));
+    z-index: 1;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    box-shadow: var(--shadow-box-shadow);
+    background: var(--dropdown-options-bg);
+
+    & .option {
+      padding: var(--space-s) var(--space-xs);
+    }
+  }
+}

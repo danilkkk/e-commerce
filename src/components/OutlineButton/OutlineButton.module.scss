@@ -1,0 +1,21 @@
+.button {
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-s) var(--space-l);
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid #AFADB5;
+
+  & .button-loader {
+    margin-right: var(--space-xxs);
+    color: var(--button-primary-text);
+  }
+
+  &.__loading {
+
+  }
+}

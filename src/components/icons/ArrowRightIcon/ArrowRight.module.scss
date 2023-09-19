@@ -1,0 +1,17 @@
+.icon {
+  fill: none !important;
+  stroke: currentColor;
+  color: inherit;
+
+  &.__primary-c {
+    color: var(--ic-primary);
+  }
+
+  &.__secondary-c {
+    color: var(--text-secondary);
+  }
+
+  &.__accent-c {
+    color: var(--text-accent);
+  }
+}

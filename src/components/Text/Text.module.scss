@@ -1,0 +1,63 @@
+.text {
+  color: inherit;
+
+  &.__title-view {
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 48px;
+  }
+
+  &.__button-view {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+
+  &.__p-20-view {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  &.__p-18-view {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+
+  &.__p-16-view {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  &.__p-14-view {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+
+  &.__bold-w {
+    font-weight: 700;
+  }
+
+  &.__normal-w {
+    font-weight: 400;
+  }
+
+  &.__medium-w {
+    font-weight: 500;
+  }
+
+  &.__primary-c {
+    color: var(--text-primary);
+  }
+
+  &.__secondary-c {
+    color: var(--text-secondary);
+  }
+
+  &.__accent-c {
+    color: var(--text-accent);
+  }
+}

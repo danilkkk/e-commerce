@@ -15,8 +15,8 @@ const BackButton: React.FC<BackButtonProps> = ({ className }) => {
 
     return (
         <div onClick={onButtonClick} className={classNames(styles['wrapper'], className)}>
-            <ArrowRightIcon className={styles['icon']} width={'32'} height={'32'} />
-            <Text className={styles['text']} view={'p-20'}>
+      <ArrowRightIcon className={styles['icon']} width="32" height="32" />
+      <Text className={styles['text']} view="p-20">
                 Назад
             </Text>
         </div>
